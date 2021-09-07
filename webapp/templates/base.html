@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.1.0/minty/bootstrap.min.css' integrity='sha512-rokdhYQUuyuPvh6AWk9vd3bf2EkTTo8nPBqKAiyGBAVuc41Rp9b2dV+jXzn13V8g4BtootbfeiJ6IH3FZesKjQ==' crossorigin='anonymous'/> -->
+	<link rel="stylesheet" href="{{ url_for( 'static', filename='node_modules/bootswatch/dist/minty/bootstrap.min.css') }}">
+	<script src="{{ url_for('static', filename='node_modules/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+
+	<!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.0/js/bootstrap.min.js' integrity='sha512-NWNl2ZLgVBoi6lTcMsHgCQyrZVFnSmcaa3zRv0L3aoGXshwoxkGs3esa9zwQHsChGRL4aLDnJjJJeP6MjPX46Q==' crossorigin='anonymous'></script> -->
+
+	<link rel="stylesheet" href="{{ url_for( 'static', filename='veggian.css') }}">
+
+	<title>Veggian</title>
+</head>
+<body>
+		{% block navbar%}
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<div class="container">
+			<a class="navbar-brand" href="#">Veggian</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarColor03">
+			<!-- <ul class="navbar-nav ms-auto">
+				<li class="nav-item">
+				<a class="nav-link" href="#">Login</a>
+				</li>
+				<li class="nav-item">
+				<a class="nav-link" href="#">About</a>
+				</li>
+			</ul> -->
+			</div>
+		</div>
+		</nav>
+		{% endblock %}
+	<div class="container">
+		{% block content %}j
+		{% endblock %}
+	</div>
+	    <!-- <script src="https://unpkg.com/htmx.org@1.5.0"></script> -->
+		<script src="{{url_for('static', filename='node_modules/htmx.org/dist/htmx.min.js') }}"></script>
+
+</body>
+</html>

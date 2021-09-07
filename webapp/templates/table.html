@@ -1,0 +1,61 @@
+
+{% if data['status'] == 0 %}
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Error</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  {{ data['status_verbose'] }}
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+          </div>
+      </div>
+  </div>
+  <script>
+    var myModal =  new bootstrap.Modal(document.getElementById('exampleModal')) 
+    myModal.show()
+  </script>
+{% else %}
+<div class="col">
+<h1> {{ data['product']['brands'] }}</h1>
+<h2> {{ data['product']['generic_name'] }}</h2>
+</div>
+<div class="col-2 d-flex flex-row-reverse">
+  <img src="{{ data['product']['image_nutrition_thumb_url'] }}" style="max-height:200px" class="img-thumbnail float-right" alt="Product Image Nutrition thumbnail">
+  <img src="{{ data['product']['image_front_thumb_url'] }}" style="max-height:200px" class="img-thumbnail float-right" alt="Product Image Front thumbnail">
+</div>
+<table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Ingredient</th>
+        <th scope="col">Vegetarian</th>
+        <th scope="col">Vegan</th>
+      </tr>
+    </thead>
+    <tbody>
+	{% set green=true %}
+	{% for ingredient in ingredients %}
+	  {% if (ingredient['vegan'] == 'yes' and ingredient['vegetarian'] == 'yes') %}
+      <tr class=" {{ loop.cycle('table-success', 'table-primary') }}">
+	  {% elif (ingredient['vegan'] == 'no' or ingredient['vegetarian'] == 'no') %}
+	  <tr class="table-danger">
+	  {% elif (ingredient['vegan'] == null or ingredient['vegetarian'] == null) %}
+	  <tr class="table-active">
+	  {% else %}
+	  <tr class="table-warning">
+	  {% endif %}
+	  
+        <th scope="row">{{ ingredient['text'] }}</th>
+        <td>{{ ingredient['vegan'] }}</td>
+        <td>{{ ingredient['vegetarian'] }}</td>
+      </tr>
+	{% endfor %}
+    </tbody>
+  </table>
+  {% endif %}

@@ -1,0 +1,11 @@
+.htmx-indicator {
+	z-index: 0;
+}
+.htmx-request.htmx-indicator{
+	opacity: .5 !important;
+	z-index: 1000;
+}
+.htmx-request.htmx-indicator{
+	opacity: .2;
+	z-index: 1;
+}
