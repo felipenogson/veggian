@@ -9,6 +9,6 @@
     "bootstrap": "^5.1.0",
     "bootswatch": "^5.1.0",
     "htmx.org": "^1.5.0",
-    "jquery": "^3.6.0"
+    "quagga": "^0.12.1"
   }
 }

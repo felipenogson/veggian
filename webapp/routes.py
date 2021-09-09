@@ -28,3 +28,8 @@ def query():
 
 	else: 
 		return 'error', 505
+
+
+@app.route('/scanner', methods=['GET', 'POST'])
+def scanner():
+	return render_template('scanner.html')
