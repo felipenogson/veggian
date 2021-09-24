@@ -1,0 +1,41 @@
+{% if recipes is string %}
+  <!-- Modal -->
+  <div class="modal fade" id="errorRecipesModal" tabindex="-1" aria-labelledby="errorRecipesModalLabel" aria-hidden="false">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="errorRecipesModalLabel">Error</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+				  {{recipes}}
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+          </div>
+      </div>
+  </div>
+  <script>
+    var errorRecipeModal =  new bootstrap.Modal(document.getElementById('errorRecipesModal')) 
+    errorRecipeModal.show()
+  </script>
+{% else %}
+
+
+{% set bg = ['bg-primary', 'bg-secondary', 'bg-success', 'bg-warning'] %}
+{% for recipe in recipes %}
+<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 d-flex justify-content-center">
+	<div class="card text-white {{ loop.cycle('bg-primary', 'bg-info', 'bg-warning', 'bg-danger') }} mb-3" style="max-width: 20rem;">
+	<div class="card-header">{{ recipe['author'] }}</div>
+	<img src="{{ recipe['picture'][0] }}" alt="{{ recipe['picture'][1] }}" class="card-img-top">
+	<div class="card-body">
+		<h4 class="card-title">{{ recipe['title']}}</h4>
+		<p class="card-text"> {{ recipe['description'] }}</p>
+		<a target="_new" href="{{recipe['url'] }}" class="btn btn-secondary">View Recipe</a>
+	</div>
+	</div>
+</div>
+{% endfor %}
+
+{% endif %}

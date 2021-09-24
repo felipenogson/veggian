@@ -1,0 +1,136 @@
+  <!-- Modal -->
+  <div class="modal fade" id="cameraModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Camera</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				  <!-- Div to show the scanner -->
+    <div id="scanner-container"></div>
+	<span>
+		<select name="input-stream_constrains" id="deviceSelection"></select>
+	</span>
+    <input type="button" id="btn" value="Start/Stop the scanner" />
+
+    <!-- Include the image-diff library -->
+    <!-- <script src="quagga.min.js"></script> -->
+    <script src="{{ url_for( 'static', filename='node_modules/quagga/dist/quagga.min.js') }}"></script>
+
+    <script>
+        var _scannerIsRunning = true;
+		var beep = new Audio( "{{ url_for('static', filename='beep.wav') }}")
+		const searchBox = document.getElementById('search_box')
+
+        function startScanner() {
+			searchBox.value = '';
+            Quagga.init({
+                inputStream: {
+                    name: "Live",
+                    type: "LiveStream",
+                    target: document.querySelector('#scanner-container'),
+                    constraints: {
+                        width: 480,
+                        height: 320,
+                        facingMode: "environment"
+                    },
+                },
+                decoder: {
+                    readers: [
+                        // "code_128_reader",
+                        // "ean_reader",
+                        // "ean_8_reader",
+                        // "code_39_reader",
+                        // "code_39_vin_reader",
+                        // "codabar_reader",
+                        "upc_reader",
+                        "upc_e_reader",
+                        // "i2of5_reader"
+                    ],
+                    debug: {
+                        showCanvas: true,
+                        showPatches: false,
+                        showFoundPatches: false,
+                        showSkeleton: false,
+                        showLabels: false,
+                        showPatchLabels: false,
+                        showRemainingPatchLabels: false,
+                        boxFromPatches: {
+                            showTransformed: false,
+                            showTransformedBox: false,
+                            showBB: false
+                        }
+                    }
+                },
+
+            }, function (err) {
+                if (err) {
+                    console.log(err);
+                    return
+                }
+
+                console.log("Initialization finished. Ready to start");
+                Quagga.start();
+
+                // Set flag to is running
+                _scannerIsRunning = true;
+            });
+
+            Quagga.onProcessed(function (result) {
+                var drawingCtx = Quagga.canvas.ctx.overlay,
+                drawingCanvas = Quagga.canvas.dom.overlay;
+
+                if (result) {
+                    if (result.boxes) {
+                        drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute("width")), parseInt(drawingCanvas.getAttribute("height")));
+                        result.boxes.filter(function (box) {
+                            return box !== result.box;
+                        }).forEach(function (box) {
+                            Quagga.ImageDebug.drawPath(box, { x: 0, y: 1 }, drawingCtx, { color: "green", lineWidth: 2 });
+                        });
+                    }
+
+                    if (result.box) {
+                        Quagga.ImageDebug.drawPath(result.box, { x: 0, y: 1 }, drawingCtx, { color: "#00F", lineWidth: 2 });
+                    }
+
+                    if (result.codeResult && result.codeResult.code) {
+                        Quagga.ImageDebug.drawPath(result.line, { x: 'x', y: 'y' }, drawingCtx, { color: 'red', lineWidth: 3 });
+                    }
+                }
+            });
+
+
+
+            Quagga.onDetected(function (result) {
+                console.log("Barcode detected and processed : [" + result.codeResult.code + "]", result);
+				beep.play()
+				searchBox.value = result.codeResult.code;
+				myModal.hide()
+				Quagga.stop()
+            });
+        }
+
+
+        // Start/stop scanner
+        document.getElementById("btn").addEventListener("click", function () {
+            if (_scannerIsRunning) {
+                Quagga.stop();
+            } else {
+                startScanner();
+            }
+        }, false);
+		startScanner();
+    </script>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+  var myModal =  new bootstrap.Modal(document.getElementById('cameraModal')) 
+  myModal.show()
+</script>

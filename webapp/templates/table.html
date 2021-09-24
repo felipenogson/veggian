@@ -1,11 +1,11 @@
 
 {% if data['status'] == 0 %}
   <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
+  <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="false">
       <div class="modal-dialog">
           <div class="modal-content">
               <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Error</h5>
+                  <h5 class="modal-title" id="errorModalLabel">Error</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
@@ -18,7 +18,7 @@
       </div>
   </div>
   <script>
-    var myModal =  new bootstrap.Modal(document.getElementById('exampleModal')) 
+    var myModal =  new bootstrap.Modal(document.getElementById('errorModal')) 
     myModal.show()
   </script>
 {% else %}
@@ -58,4 +58,11 @@
 	{% endfor %}
     </tbody>
   </table>
+  <div class="d-grid gap-2 mb-4">
+    <form hx-get="{{ url_for('recipes', ingredient=word) }}" hx-target="#recipes" hx-swap="innerHTML show:top" hx-indicator="#indicator">
+      <button class="btn btn-lg btn-secondary" type="submit">Search Vegetarian Recipes for {{ word.capitalize() }}</button>
+    </form>
+  </div>
+  <div class="row align-items-stretch" id="recipes">
+  </div>
   {% endif %}

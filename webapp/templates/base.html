@@ -4,19 +4,23 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<!-- <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.1.0/minty/bootstrap.min.css' integrity='sha512-rokdhYQUuyuPvh6AWk9vd3bf2EkTTo8nPBqKAiyGBAVuc41Rp9b2dV+jXzn13V8g4BtootbfeiJ6IH3FZesKjQ==' crossorigin='anonymous'/> -->
+	<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌿</text></svg>">
+
+
 	<link rel="stylesheet" href="{{ url_for( 'static', filename='node_modules/bootswatch/dist/minty/bootstrap.min.css') }}">
 	<script src="{{ url_for('static', filename='node_modules/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 
-	<!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.0/js/bootstrap.min.js' integrity='sha512-NWNl2ZLgVBoi6lTcMsHgCQyrZVFnSmcaa3zRv0L3aoGXshwoxkGs3esa9zwQHsChGRL4aLDnJjJJeP6MjPX46Q==' crossorigin='anonymous'></script> -->
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.0/js/bootstrap.min.js' integrity='sha512-NWNl2ZLgVBoi6lTcMsHgCQyrZVFnSmcaa3zRv0L3aoGXshwoxkGs3esa9zwQHsChGRL4aLDnJjJJeP6MjPX46Q==' crossorigin='anonymous'></script>
 
 	<link rel="stylesheet" href="{{ url_for( 'static', filename='veggian.css') }}">
+	 <script src="{{ url_for( 'static', filename='node_modules/quagga/dist/quagga.min.js') }}"></script>
 
-	<title>Veggian</title>
+	<title>Veggian 2.0</title>
 </head>
 <body>
+
 		{% block navbar%}
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 		<div class="container">
 			<a class="navbar-brand" href="#">Veggian</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
