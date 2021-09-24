@@ -19,7 +19,7 @@ def query():
 		response = requests.get(apiUrl + request.form['query'] + '.json')
 		data = json.loads(response.text)
 		ingredients = []
-		stop_words = ['food', 'their', 'america', 'value', 'great', 'base', 'fabrique', 'dell', 'non-ue', 'nl-bio-01', 'sale', 'salee']
+		stop_words = ['food', 'their', 'america', 'value', 'great', 'base', 'fabrique', 'dell', 'non-ue', 'nl-bio-01', 'sale', 'salee', 'vegetarien']
 		word = ''
 
 		if data['status'] == 1:
