@@ -1,5 +1,5 @@
 .htmx-indicator {
-	z-index: 0;
+	z-index: -1;
 }
 .htmx-request.htmx-indicator{
 	opacity: .5 !important;
@@ -9,3 +9,11 @@
 	opacity: .2;
 	z-index: 1;
 }
+
+/* This is for the scanner */
+canvas.drawing, canvas.drawingBuffer {
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+        

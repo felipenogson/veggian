@@ -1,33 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <title></title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        /* In order to place the tracking correctly */
-        canvas.drawing, canvas.drawingBuffer {
-            position: absolute;
-            left: 0;
-            top: 0;
-        }
-    </style>
-</head>
-
-<body>
-    <!-- Div to show the scanner -->
+  <!-- Modal -->
+  <div class="modal fade" id="cameraModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Camera</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				  <!-- Div to show the scanner -->
     <div id="scanner-container"></div>
+	<span>
+		<select name="input-stream_constrains" id="deviceSelection"></select>
+	</span>
     <input type="button" id="btn" value="Start/Stop the scanner" />
 
     <!-- Include the image-diff library -->
     <!-- <script src="quagga.min.js"></script> -->
-   
+    <script src="{{ url_for( 'static', filename='node_modules/quagga/dist/quagga.min.js') }}"></script>
 
     <script>
-        var _scannerIsRunning = false;
+        var _scannerIsRunning = true;
+		var beep = new Audio( "{{ url_for('static', filename='beep.wav') }}")
+		const searchBox = document.getElementById('search_box')
 
         function startScanner() {
+			searchBox.value = '';
             Quagga.init({
                 inputStream: {
                     name: "Live",
@@ -42,27 +39,27 @@
                 decoder: {
                     readers: [
                         // "code_128_reader",
-                        "ean_reader",
-                        "ean_8_reader"
+                        // "ean_reader",
+                        // "ean_8_reader",
                         // "code_39_reader",
                         // "code_39_vin_reader",
                         // "codabar_reader",
-                        // "upc_reader",
-                        // "upc_e_reader",
+                        "upc_reader",
+                        "upc_e_reader",
                         // "i2of5_reader"
                     ],
                     debug: {
                         showCanvas: true,
-                        showPatches: true,
-                        showFoundPatches: true,
-                        showSkeleton: true,
-                        showLabels: true,
-                        showPatchLabels: true,
-                        showRemainingPatchLabels: true,
+                        showPatches: false,
+                        showFoundPatches: false,
+                        showSkeleton: false,
+                        showLabels: false,
+                        showPatchLabels: false,
+                        showRemainingPatchLabels: false,
                         boxFromPatches: {
-                            showTransformed: true,
-                            showTransformedBox: true,
-                            showBB: true
+                            showTransformed: false,
+                            showTransformedBox: false,
+                            showBB: false
                         }
                     }
                 },
@@ -105,8 +102,13 @@
             });
 
 
+
             Quagga.onDetected(function (result) {
                 console.log("Barcode detected and processed : [" + result.codeResult.code + "]", result);
+				beep.play()
+				searchBox.value = result.codeResult.code;
+				myModal.hide()
+				Quagga.stop()
             });
         }
 
@@ -119,7 +121,16 @@
                 startScanner();
             }
         }, false);
+		startScanner();
     </script>
-</body>
-
-</html>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+  var myModal =  new bootstrap.Modal(document.getElementById('cameraModal')) 
+  myModal.show()
+</script>
